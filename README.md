@@ -1,111 +1,151 @@
+# CGPA Calculator & Academic Planner
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success.svg)](https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-mohiuddin--khan--shiam/CGPA--Calculator-blue.svg)](https://github.com/mohiuddin-khan-shiam/CGPA-Calculator)
+[![Pure Vanilla](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20ES6%2B-orange.svg)](#technology-stack)
+[![Privacy First](https://img.shields.io/badge/Privacy-100%25%20Client--Side-brightgreen.svg)](#privacy--security)
+
+A modern, fast, and interactive academic GPA and CGPA planner. Calculate your updated Cumulative Grade Point Average, analyze term performance, forecast target graduation goals, and convert letter grades in real time with an intuitive, responsive interface.
+
 ---
 
-# CGPA Calculator
+## 🌟 Key Features
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
-[![GitHub Repo](https://img.shields.io/badge/GitHub-mohiuddin--khan--shiam/CGPA--Calculator-blue.svg)](https://github.com/mohiuddin-khan-shiam/CGPA-Calculator)
+### ⚡ Interactive Calculator
+- **Instant Reactive Calculations:** Updates your CGPA, semester GPA, quality points, and change delta dynamically as you type or adjust dropdowns.
+- **Dynamic Course Manager:** Add or remove courses on the fly, quick-add 3 courses at once, or load realistic sample courses with a single click.
+- **Letter Grade & Numeric Modes:** Seamlessly toggle between standard letter grades (A+, A, A-, B+...) and direct decimal GPA numbers (e.g., `3.75`).
+- **Cumulative vs. Semester GPA Mode:** Check or uncheck *"Include Previous Academic Record"* to switch effortlessly between calculating a fresh semester GPA or updating your cumulative CGPA.
+- **Visual Circular Progress Gauge:** Animated SVG gauge with a smooth gradient ring visually displaying your CGPA against the maximum scale.
+- **Academic Standing & Honors Badges:** Automatically classifies your performance (*Summa Cum Laude / Dean's List*, *Magna Cum Laude*, *Cum Laude*, *Good Standing*, etc.).
+- **Performance Delta Indicator:** Visual indicator displaying exact changes from your prior CGPA (`▲ +0.12`, `▼ -0.05`, or `= 0.00`).
 
-The **CGPA Calculator** is a user-friendly web tool that allows students to calculate their updated Cumulative Grade Point Average (CGPA) by entering their current CGPA, completed credits, and details for the current semester's courses. It supports standard scales (4.0, 5.0, 10.0) as well as a custom scale option.
+### 🎯 Target CGPA Forecaster
+- **Goal Forecasting Engine:** Determines the exact semester or future GPA required across remaining credits to reach your desired target graduation CGPA.
+- **Feasibility Assessment:** Categorizes target goals as *Already Achieved*, *Comfortably Within Reach*, *Achievable with Focus*, *Challenging Goal*, or *Mathematically Impossible*.
+- **Maximum Possible CGPA:** Automatically calculates the highest achievable CGPA if you earn straight top grades in all remaining credit hours.
 
-## Table of Contents
+### 📐 Multi-Scale & Grading Reference
+- **Preset & Custom Scales:**
+  - Standard 4.00 Scale (US & International)
+  - 4.33 Scale (e.g., SFU, Dalhousie)
+  - 5.00 Scale (e.g., MIT, Singapore, Nigeria)
+  - 10.00 Scale (e.g., IIT, India)
+  - Custom Scale (1.00 to 100.00)
+- **Grading Scale Reference Table:** Benchmark conversion chart for letter grades, grade points, percentage equivalents, and academic distinctions.
+- **Interactive Formula Guide & FAQ:** Clear explanations of official credit-weighted quality point formulas with step-by-step examples.
 
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Repository Structure](#repository-structure)
-- [License](#license)
-- [Contributing](#contributing)
-- [Screenshots](#screenshots)
-- [Contact](#contact)
+### 🖨️ Export, Print & Sharing
+- **Copy Summary to Clipboard:** Generates a formatted text summary ready to share with academic advisors, mentors, or friends.
+- **Print / PDF Report Generator:** Dedicated `@media print` layout converts your course list, term metrics, and cumulative projection into a clean academic report sheet.
+- **Local Persistence:** Automatically preserves your course data and settings in browser `localStorage` so you never lose your inputs if you refresh.
 
-## Features
+### 🎨 Design & Accessibility
+- **Modern Theme System:** High-contrast Dark and Light themes with automatic `prefers-color-scheme` detection and smooth transitions.
+- **Glassmorphism & Fluid Typography:** Powered by Google's *Plus Jakarta Sans*, sleek borders, and subtle drop shadows.
+- **Keyboard Navigation:** Full WAI-ARIA tab navigation (`ArrowLeft`, `ArrowRight`, `Home`, `End`), accessible focus indicators, and keyboard shortcuts (`Ctrl+Enter` to quickly add courses).
 
-- **Dynamic Input Forms:**  
-  Easily input your current CGPA, completed credits, and details for multiple courses (GPA and credit per course).
-- **Customizable CGPA Scale:**  
-  Choose from preset scales (4.0, 5.0, 10.0) or enter your own custom scale.
-- **Dark/Light Mode Toggle:**  
-  Seamlessly switch between dark and light themes.
-- **Responsive Design:**  
-  Optimized for both desktop and mobile devices.
-- **Accessibility Enhancements:**  
-  Includes ARIA attributes, keyboard navigation support, and a skip-to-content link.
-- **Real-time Feedback:**  
-  Immediate error messages and subtle animations to confirm successful calculations.
+---
 
-## Demo
+## 🚀 Live Demo
 
-You can view the live demo of the CGPA Calculator on GitHub Pages:  
-[https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/](https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/)
+Try the live application hosted directly on GitHub Pages:  
+👉 **[https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/](https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/)**
 
-## Installation
+---
+
+## 🧮 Mathematical Formulas
+
+### 1. Semester GPA (Grade Point Average)
+$$\text{Semester GPA} = \frac{\sum_{i=1}^{n} (\text{Credit}_i \times \text{Grade}_i)}{\sum_{i=1}^{n} \text{Credit}_i}$$
+
+### 2. Updated Cumulative CGPA
+$$\text{Updated CGPA} = \frac{(\text{Prior CGPA} \times \text{Prior Credits}) + \sum_{i=1}^{n} (\text{Credit}_i \times \text{Grade}_i)}{\text{Prior Credits} + \sum_{i=1}^{n} \text{Credit}_i}$$
+
+### 3. Required Future GPA for Target CGPA
+$$\text{Required GPA} = \frac{\text{Target CGPA} \times (\text{Prior Credits} + \text{Remaining Credits}) - (\text{Prior CGPA} \times \text{Prior Credits})}{\text{Remaining Credits}}$$
+
+$$\text{Max Possible CGPA} = \frac{(\text{Prior CGPA} \times \text{Prior Credits}) + (\text{Max Scale} \times \text{Remaining Credits})}{\text{Prior Credits} + \text{Remaining Credits}}$$
+
+---
+
+## 💻 Technology Stack
+
+- **HTML5:** Semantic markup, WAI-ARIA accessibility roles, micro-interactions.
+- **CSS3:** Custom properties (design tokens), CSS Grid, Flexbox, glassmorphic backdrop filters, fluid typography, `@media print` stylesheet.
+- **JavaScript (ES6+):** Vanilla client-side script with zero runtime dependencies or build steps.
+- **Icons & Visuals:** Pure inline SVGs for zero layout shift, crisp rendering, and offline compatibility.
+
+---
+
+## 📁 Repository Structure
+
+```
+CGPA-Calculator/
+├── index.html         # Semantic HTML5 single-page application structure
+├── style.css          # Modern CSS3 stylesheet with light/dark theme variables
+├── script.js          # Reactive calculation engine, state manager & events
+├── favicon.ico        # Website icon
+├── dark-mode.png      # Application screenshot (Dark theme)
+├── light-mode.png     # Application screenshot (Light theme)
+├── LICENSE            # MIT License
+└── README.md          # Project documentation
+```
+
+---
+
+## 🛠️ Local Installation & Development
+
+No Node.js, package manager, or build steps are required.
 
 1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/mohiuddin-khan-shiam/CGPA-Calculator.git
    cd CGPA-Calculator
    ```
 
-2. **Open the project:**
-
-   You can simply open `index.html` in your web browser. No additional build steps or dependencies are required.
-
-## Usage
-
-1. **Enter your details:**  
-   Fill in your current CGPA, the total number of credits completed, and the number of courses for the current semester.
-
-2. **Select your CGPA scale:**  
-   Choose a preset scale or select "Other" to enter a custom scale.
-
-3. **Input course details:**  
-   Enter GPA and credit information for each course. Optionally, you can add a course name.
-
-4. **Calculate:**  
-   Click "Next" to generate course fields, then "Calculate CGPA" to view your updated CGPA.
-
-5. **Reset:**  
-   Use the "Start Over" button if you want to perform another calculation.
-
-## Repository Structure
-
-```
-CGPA-Calculator/
-├── index.html         # Main HTML file for the application
-├── style.css          # CSS file for styling the website
-├── script.js          # JavaScript file for dynamic behavior and form validation
-├── favicon.ico        # Favicon for the website
-├── dark-mode.png      # Screenshot/icon representing dark mode
-├── light-mode.png     # Screenshot/icon representing light mode
-├── LICENSE            # MIT License
-└── README.md          # This README file
-```
-
-## License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
-
-## Screenshots
-
-### Light Mode
-
-![Light Mode](light-mode.png)
-
-### Dark Mode
-
-![Dark Mode](dark-mode.png)
-
-## Contact
-
-Created by **S. M. Mohiuddin Khan Shiam**.  
-For any questions or feedback, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/s-m-mohiuddin-khan-shiam/) or [GitHub](https://github.com/mohiuddin-khan-shiam).
+2. **Open in browser:**
+   - Double-click `index.html` to open it directly in any browser.
+   - Alternatively, serve with VS Code's *Live Server* or any lightweight static server:
+     ```bash
+     npx serve .
+     # or
+     python -m http.server 8000
+     ```
 
 ---
 
-Feel free to adjust this README as needed to better match your project's specifics or additional details you’d like to share.
+## 🔒 Privacy & Security
+
+This application runs **100% locally in your browser**:
+- No transcripts, course names, or grades are sent to any server or third party.
+- No analytics trackers or external cookies.
+- All stored state stays strictly within your browser's private `localStorage`.
+
+---
+
+## 🤝 Contributing
+
+Contributions, feature ideas, and pull requests are welcome!
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/NewFeature`).
+3. Commit your changes (`git commit -m "Add some NewFeature"`).
+4. Push to the branch (`git push origin feature/NewFeature`).
+5. Open a Pull Request.
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the [MIT License](LICENSE).
+
+---
+
+## 👤 Author
+
+Created and maintained by **S. M. Mohiuddin Khan Shiam**.
+
+- **Portfolio:** [mohiuddin-khan-shiam.github.io](https://mohiuddin-khan-shiam.github.io/)
+- **LinkedIn:** [linkedin.com/in/s-m-mohiuddin-khan-shiam](https://www.linkedin.com/in/s-m-mohiuddin-khan-shiam/)
+- **GitHub:** [@mohiuddin-khan-shiam](https://github.com/mohiuddin-khan-shiam)

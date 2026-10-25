@@ -3,262 +3,893 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CGPA Calculator – Update Your CGPA Instantly</title>
-  <meta name="description" content="Calculate your updated CGPA easily using our interactive CGPA Calculator. Enter your current CGPA, credits, and course details to see your updated CGPA." />
-  <meta name="keywords" content="CGPA Calculator, GPA Calculator, CGPA, GPA, Academic Calculator" />
+  <title>CGPA Calculator & Academic Planner – Fast, Accurate & Free</title>
+  <meta name="description" content="Calculate and plan your cumulative CGPA and semester GPA with an interactive, instant academic calculator. Supports 4.0, 4.33, 5.0, 10.0, and custom scales with letter grade conversion and goal forecasting." />
+  <meta name="keywords" content="CGPA Calculator, GPA Calculator, Cumulative GPA, Semester GPA, Academic Planner, Target CGPA, College GPA, University Grading" />
   <meta name="author" content="S. M. Mohiuddin Khan Shiam" />
 
   <!-- Open Graph / Social Media Tags -->
-  <meta property="og:title" content="CGPA Calculator – Update Your CGPA Instantly" />
-  <meta property="og:description" content="Calculate your updated CGPA easily using our interactive CGPA Calculator. Enter your current CGPA, credits, and course details to see your updated CGPA." />
+  <meta property="og:title" content="CGPA Calculator & Academic Planner" />
+  <meta property="og:description" content="Effortlessly calculate your updated CGPA, explore target goals, and convert letter grades in real-time." />
   <meta property="og:image" content="https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/favicon.ico" />
   <meta property="og:url" content="https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/" />
+  <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CGPA Calculator & Academic Planner" />
+  <meta name="twitter:description" content="Interactive browser-based GPA & CGPA calculator with target forecaster and multi-scale support." />
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/favicon.ico" />
+  <link rel="icon" href="favicon.ico" />
 </head>
-<body>
-  <!-- Skip link for improved keyboard navigation -->
+<body class="dark-mode">
+  <!-- Accessibility Skip Navigation -->
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- Message for users with JavaScript disabled -->
-  <noscript>
-    <p style="color: red; text-align: center;">
-      This site requires JavaScript for full functionality. Please enable JavaScript and refresh the page.
-    </p>
-  </noscript>
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <header role="banner">
-    <h1>CGPA Calculator</h1>
-    <button 
-      id="themeToggle" 
-      aria-label="Toggle dark/light mode" 
-      aria-pressed="true"
-    >
-      Switch to Light Mode
-    </button>
-  </header>
-
-  <main id="main-content" role="main">
-    <!-- Intro Section with a larger explanation -->
-    <section id="intro-section">
-      <h2>Welcome to the Ultimate CGPA Calculator</h2>
-      <p>
-        Our user-friendly tool makes it easy to calculate and update your CGPA. Whether you’re on a standard 4.0, 5.0, or 10.0 scale—or even a custom scale—this calculator helps you stay on top of your academic performance.
-      </p>
-      <p>
-        Simply enter your current CGPA, completed credits, and the details of your current semester’s courses. In just a few clicks, you’ll get an accurate, updated CGPA. No data is stored on our servers; everything is calculated right in your browser for maximum privacy.
-      </p>
-      <!-- The "Start Calculating" CTA button has been removed per the update request -->
-    </section>
-
-    <!-- Main Input Section -->
-    <section id="input-section">
-      <h2>Calculate Your CGPA</h2>
-      <form id="cgpaForm" novalidate>
-        <!-- Merged CGPA Scale Selection -->
-        <label for="cgpaScale">Select CGPA Scale:</label>
-        <select id="cgpaScale">
-          <option value="4">4.0 Scale</option>
-          <option value="5">5.0 Scale</option>
-          <option value="10">10.0 Scale</option>
-          <option value="other">Other</option>
-        </select>
-
-        <div id="customScaleContainer" class="hidden" aria-hidden="true">
-          <label for="customScale">Enter Custom Scale (1-20):</label>
-          <input 
-            type="number" 
-            id="customScale" 
-            min="1" 
-            max="20" 
-            placeholder="e.g., 12" 
-            aria-describedby="customScaleError"
-          />
-          <p 
-            class="error-message" 
-            id="customScaleError" 
-            role="alert" 
-            aria-live="assertive"
-          ></p>
+  <!-- Header / Navigation Bar -->
+  <header class="app-header" role="banner">
+    <div class="header-inner container">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
         </div>
+        <div class="brand-text">
+          <span class="brand-title">CGPA Calculator</span>
+          <span class="brand-badge">Pro v2.0</span>
+        </div>
+      </div>
 
-        <label for="currentCgpa">Current CGPA (Before this semester):</label>
-        <input 
-          type="number" 
-          id="currentCgpa" 
-          step="0.01" 
-          min="0" 
-          max="10" 
-          placeholder="e.g., 3.50" 
-          required 
-          aria-describedby="cgpaError"
-        />
-        <p 
-          class="error-message" 
-          id="cgpaError" 
-          role="alert" 
-          aria-live="assertive"
-        ></p>
-
-        <label for="creditsCompleted">Credits Completed (Before this semester):</label>
-        <input 
-          type="number" 
-          id="creditsCompleted" 
-          min="1" 
-          max="250" 
-          placeholder="e.g., 120" 
-          required 
-          aria-describedby="creditError"
-        />
-        <p 
-          class="error-message" 
-          id="creditError" 
-          role="alert" 
-          aria-live="assertive"
-        ></p>
-        <small class="help-text">
-          Hint: Check your transcript for completed credits.
-        </small>
-
-        <label for="numOfCourses">Number of Courses This Semester:</label>
-        <input 
-          type="number" 
-          id="numOfCourses" 
-          min="1" 
-          max="20" 
-          placeholder="e.g., 4" 
-          required 
-          aria-describedby="numOfCoursesError"
-        />
-        <p 
-          class="error-message" 
-          id="numOfCoursesError" 
-          role="alert" 
-          aria-live="assertive"
-        ></p>
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" role="tablist" aria-label="Main Navigation">
+        <button 
+          class="nav-tab active" 
+          role="tab" 
+          id="tabBtn-calculator" 
+          aria-selected="true" 
+          aria-controls="tab-calculator"
+          tabindex="0"
+        >
+          <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+            <line x1="8" y1="6" x2="16" y2="6"></line>
+            <line x1="16" y1="14" x2="16" y2="18"></line>
+            <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path>
+          </svg>
+          <span>Calculator</span>
+        </button>
 
         <button 
-          type="submit" 
-          aria-label="Go to Course Details Section"
+          class="nav-tab" 
+          role="tab" 
+          id="tabBtn-target" 
+          aria-selected="false" 
+          aria-controls="tab-target"
+          tabindex="-1"
         >
-          Next
+          <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+          <span>Target Forecaster</span>
         </button>
-      </form>
-    </section>
 
-    <!-- GPA Input Section -->
-    <section id="gpa-section" class="hidden">
-      <h2>Enter Your Course Details</h2>
-      <div id="gpaInputs" aria-live="polite"></div>
-      <button 
-        id="calculateCgpa" 
-        aria-label="Calculate your updated CGPA"
-      >
-        Calculate CGPA
-      </button>
-    </section>
+        <button 
+          class="nav-tab" 
+          role="tab" 
+          id="tabBtn-faq" 
+          aria-selected="false" 
+          aria-controls="tab-faq"
+          tabindex="-1"
+        >
+          <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Scales & FAQ</span>
+        </button>
+      </nav>
 
-    <!-- Result Section -->
-    <section id="result-section" class="hidden">
-      <h2>Your CGPA is: <span id="calculatedCgpa">0.00</span></h2>
-      <p 
-        class="success-message hidden" 
-        id="successMessage" 
-        role="alert" 
-        aria-live="assertive"
-      >
-        Calculation Successful!
-      </p>
-      <button id="recalculate" aria-label="Start a new calculation">
-        Start Over
-      </button>
-    </section>
+      <!-- Action Buttons (Sample Data, Theme, GitHub) -->
+      <div class="header-actions">
+        <button id="sampleDataBtn" class="btn btn-ghost btn-sm" title="Load sample course data" aria-label="Load sample courses">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          <span>Sample Data</span>
+        </button>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works">
-      <h2>How It Works</h2>
-      <p>
-        Your CGPA is calculated using the formula:
-        <strong>Total Points / Total Credits</strong>.
-      </p>
-      <ol>
-        <li>
-          Select your CGPA scale by choosing a preset option or selecting "Other" to enter a custom scale.
-        </li>
-        <li>
-          Enter your current CGPA and completed credits.
-        </li>
-        <li>
-          Provide GPA, credit details, and optional course names for each course taken this semester.
-        </li>
-      </ol>
-      <div class="example-section">
-        <p>
-          <strong>Example:</strong> If your current CGPA is 3.50 with 90 completed credits and you take 3 new courses:
-        </p>
-        <ul>
-          <li>Course 1: GPA 4.0, Credit 3</li>
-          <li>Course 2: GPA 3.7, Credit 2</li>
-          <li>Course 3: GPA 3.0, Credit 4</li>
-        </ul>
-        <p>Your updated CGPA will be <strong>3.46</strong>.</p>
+        <button id="themeToggle" class="btn btn-icon btn-ghost" aria-label="Toggle light and dark theme" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <a 
+          href="https://github.com/mohiuddin-khan-shiam/CGPA-Calculator" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="btn btn-icon btn-ghost" 
+          aria-label="View source code on GitHub"
+          title="GitHub Repository"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container main-layout">
+    <!-- ========================================== -->
+    <!-- TAB 1: CGPA CALCULATOR                    -->
+    <!-- ========================================== -->
+    <section 
+      id="tab-calculator" 
+      class="tab-panel active" 
+      role="tabpanel" 
+      aria-labelledby="tabBtn-calculator"
+    >
+      <div class="calculator-grid">
+        <!-- LEFT COLUMN: Inputs & Courses -->
+        <div class="calc-main-column">
+          <!-- Setup & Academic History Card -->
+          <div class="card glass-card setup-card">
+            <div class="card-header">
+              <div>
+                <h1 class="card-title">Academic Details</h1>
+                <p class="card-subtitle">Configure your grading scale and previous credit standing.</p>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <!-- Scale & Grade Mode Row -->
+              <div class="form-row-grid">
+                <div class="form-group">
+                  <label for="cgpaScale" class="form-label">
+                    <span>Grading Scale</span>
+                    <span class="tooltip" title="Select your institution's maximum GPA scale">ℹ️</span>
+                  </label>
+                  <select id="cgpaScale" class="form-select">
+                    <option value="4" selected>4.00 Scale (Standard)</option>
+                    <option value="4.33">4.33 Scale (e.g., SFU, Dalhousie)</option>
+                    <option value="5">5.00 Scale (e.g., MIT, Singapore)</option>
+                    <option value="10">10.00 Scale (e.g., IIT, India)</option>
+                    <option value="custom">Custom Scale...</option>
+                  </select>
+                </div>
+
+                <div id="customScaleWrapper" class="form-group hidden" aria-hidden="true">
+                  <label for="customScale" class="form-label">Custom Max Scale</label>
+                  <input 
+                    type="number" 
+                    id="customScale" 
+                    class="form-input" 
+                    min="1" 
+                    max="100" 
+                    step="0.01" 
+                    placeholder="e.g., 12.0 or 20.0" 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="gradeInputMode" class="form-label">Grade Input Type</label>
+                  <div class="toggle-segmented" role="radiogroup" aria-label="Grade entry format">
+                    <button 
+                      type="button" 
+                      id="modeLetter" 
+                      class="segmented-btn active" 
+                      role="radio" 
+                      aria-checked="true"
+                    >
+                      Letter (A, B...)
+                    </button>
+                    <button 
+                      type="button" 
+                      id="modeNumeric" 
+                      class="segmented-btn" 
+                      role="radio" 
+                      aria-checked="false"
+                    >
+                      Numeric (e.g. 3.7)
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Prior CGPA Toggle Switch -->
+              <div class="prior-cgpa-toggle-box">
+                <label class="switch-control" for="includePriorCgpa">
+                  <input type="checkbox" id="includePriorCgpa" checked />
+                  <span class="switch-slider"></span>
+                  <span class="switch-label">Include Previous Academic Record (Update CGPA)</span>
+                </label>
+                <span class="badge-subtle" id="priorModeBadge">Cumulative Mode</span>
+              </div>
+
+              <!-- Prior CGPA Inputs -->
+              <div id="priorCgpaFields" class="form-row-grid animate-fade">
+                <div class="form-group">
+                  <label for="currentCgpa" class="form-label">
+                    <span>Current CGPA</span>
+                    <span class="field-hint">(Before this semester)</span>
+                  </label>
+                  <div class="input-with-adornment">
+                    <input 
+                      type="number" 
+                      id="currentCgpa" 
+                      class="form-input" 
+                      step="0.01" 
+                      min="0" 
+                      max="4" 
+                      placeholder="e.g., 3.45" 
+                      value="3.50"
+                    />
+                    <span class="input-adornment" id="scaleAdornment">/ 4.00</span>
+                  </div>
+                  <p class="field-error" id="currentCgpaError" role="alert"></p>
+                </div>
+
+                <div class="form-group">
+                  <label for="creditsCompleted" class="form-label">
+                    <span>Completed Credits</span>
+                    <span class="field-hint">(Earned so far)</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    id="creditsCompleted" 
+                    class="form-input" 
+                    min="0" 
+                    max="500" 
+                    step="0.5" 
+                    placeholder="e.g., 60" 
+                    value="45"
+                  />
+                  <p class="field-error" id="creditsCompletedError" role="alert"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Courses Card -->
+          <div class="card glass-card courses-card">
+            <div class="card-header course-card-header">
+              <div>
+                <h2 class="card-title">Current Semester Courses</h2>
+                <p class="card-subtitle">Add your courses, credit values, and expected or earned grades.</p>
+              </div>
+              <div class="course-header-meta">
+                <span class="badge-count" id="courseCountBadge">3 Courses</span>
+                <span class="badge-credits" id="totalTermCreditsBadge">9.0 Credits</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <!-- Courses Container -->
+              <div id="coursesContainer" class="courses-list" aria-live="polite">
+                <!-- Dynamically rendered course rows -->
+              </div>
+
+              <!-- Course Management Actions -->
+              <div class="courses-actions-bar">
+                <button type="button" id="addCourseBtn" class="btn btn-primary">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Add Course</span>
+                </button>
+
+                <div class="secondary-course-btns">
+                  <button type="button" id="quickAddThreeBtn" class="btn btn-secondary btn-sm" title="Add 3 blank courses">
+                    + Add 3 Courses
+                  </button>
+                  <button type="button" id="clearCoursesBtn" class="btn btn-ghost btn-sm text-danger" title="Clear all course inputs">
+                    Clear Courses
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Sticky Real-time Results Dashboard -->
+        <aside class="calc-sidebar">
+          <div class="card glass-card results-card sticky-sidebar" id="resultsSidebar">
+            <div class="results-header">
+              <span class="eyebrow" id="resultEyebrow">Cumulative Performance</span>
+              <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span>Live Calculation</span>
+              </div>
+            </div>
+
+            <!-- Hero CGPA Gauge / Meter -->
+            <div class="hero-gauge-wrapper">
+              <div class="gauge-svg-box">
+                <svg viewBox="0 0 160 160" class="gauge-svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#6366f1" />
+                      <stop offset="100%" stop-color="#06b6d4" />
+                    </linearGradient>
+                  </defs>
+                  <circle 
+                    class="gauge-bg" 
+                    cx="80" 
+                    cy="80" 
+                    r="68" 
+                    fill="none" 
+                    stroke-width="12"
+                  ></circle>
+                  <circle 
+                    id="gaugeProgress" 
+                    class="gauge-progress" 
+                    cx="80" 
+                    cy="80" 
+                    r="68" 
+                    fill="none" 
+                    stroke-width="12" 
+                    stroke="url(#gaugeGradient)"
+                    stroke-dasharray="427.26" 
+                    stroke-dashoffset="100" 
+                    stroke-linecap="round"
+                  ></circle>
+                </svg>
+
+                <div class="gauge-center-content">
+                  <span class="gauge-label" id="resultPrimaryLabel">Updated CGPA</span>
+                  <span class="gauge-value" id="displayCgpa">3.62</span>
+                  <span class="gauge-scale" id="displayMaxScale">/ 4.00</span>
+                </div>
+              </div>
+
+              <!-- CGPA Delta & Standing Badges -->
+              <div class="badges-row">
+                <div id="deltaBadge" class="badge-delta positive" title="Change from previous CGPA">
+                  <span id="deltaArrow" aria-hidden="true">▲</span>
+                  <span id="deltaValue">+0.12</span>
+                </div>
+                <div id="honorsBadge" class="badge-honors" title="Academic Classification">
+                  Magna Cum Laude
+                </div>
+              </div>
+            </div>
+
+            <!-- Detailed Academic Metrics Grid -->
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <span class="metric-label">Semester GPA</span>
+                <span class="metric-value highlight" id="metricSemesterGpa">3.80</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Semester Credits</span>
+                <span class="metric-value" id="metricSemesterCredits">9.0</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Total Credits</span>
+                <span class="metric-value" id="metricTotalCredits">54.0</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Total Points</span>
+                <span class="metric-value" id="metricTotalPoints">195.5</span>
+              </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="results-actions">
+              <button type="button" id="copySummaryBtn" class="btn btn-secondary w-full">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy Summary</span>
+              </button>
+
+              <div class="btn-group-2">
+                <button type="button" id="printReportBtn" class="btn btn-ghost btn-sm" title="Print or save as PDF">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                  </svg>
+                  <span>Print Report</span>
+                </button>
+                <button type="button" id="resetAllBtn" class="btn btn-ghost btn-sm text-muted" title="Reset all inputs">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                  </svg>
+                  <span>Reset All</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Privacy Guarantee Micro-badge -->
+            <div class="privacy-note">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>100% Private. Runs purely in your browser.</span>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq-section">
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      <details>
-        <summary>Will this CGPA match my official transcript?</summary>
-        <p>
-          While this calculator uses standard formulas, official transcripts may vary based on your institution's rounding or weighting policies.
-        </p>
-      </details>
-      <details>
-        <summary>Can I see my CGPA in multiple scales?</summary>
-        <p>
-          Absolutely! Simply select a different scale from the dropdown (or enter a custom scale) and recalculate with your course details.
-        </p>
-      </details>
-      <details>
-        <summary>Is my data stored or shared?</summary>
-        <p>
-          No. All calculations happen locally in your browser, and no data is sent to any server.
-        </p>
-      </details>
+    <!-- ========================================== -->
+    <!-- TAB 2: TARGET CGPA FORECASTER              -->
+    <!-- ========================================== -->
+    <section 
+      id="tab-target" 
+      class="tab-panel hidden" 
+      role="tabpanel" 
+      aria-labelledby="tabBtn-target"
+    >
+      <div class="forecaster-container">
+        <div class="card glass-card forecaster-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Target CGPA Forecaster</h2>
+              <p class="card-subtitle">Calculate the exact GPA you need in your remaining credits to reach your target graduation CGPA.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="forecaster-grid">
+              <!-- Inputs Side -->
+              <div class="forecaster-inputs">
+                <div class="form-group">
+                  <label for="targetScale" class="form-label">Scale</label>
+                  <select id="targetScale" class="form-select">
+                    <option value="4" selected>4.00 Scale</option>
+                    <option value="4.33">4.33 Scale</option>
+                    <option value="5">5.00 Scale</option>
+                    <option value="10">10.00 Scale</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="forecasterCurrentCgpa" class="form-label">Current CGPA</label>
+                  <input 
+                    type="number" 
+                    id="forecasterCurrentCgpa" 
+                    class="form-input" 
+                    step="0.01" 
+                    min="0" 
+                    max="4" 
+                    placeholder="e.g. 3.30" 
+                    value="3.35" 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="forecasterCompletedCredits" class="form-label">Credits Completed</label>
+                  <input 
+                    type="number" 
+                    id="forecasterCompletedCredits" 
+                    class="form-input" 
+                    min="1" 
+                    max="400" 
+                    placeholder="e.g. 60" 
+                    value="60" 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="forecasterTargetCgpa" class="form-label">Target CGPA Desired</label>
+                  <input 
+                    type="number" 
+                    id="forecasterTargetCgpa" 
+                    class="form-input" 
+                    step="0.01" 
+                    min="0" 
+                    max="4" 
+                    placeholder="e.g. 3.60" 
+                    value="3.60" 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="forecasterUpcomingCredits" class="form-label">Upcoming / Remaining Credits</label>
+                  <input 
+                    type="number" 
+                    id="forecasterUpcomingCredits" 
+                    class="form-input" 
+                    min="1" 
+                    max="200" 
+                    placeholder="e.g. 30" 
+                    value="30" 
+                  />
+                </div>
+              </div>
+
+              <!-- Output Analysis Side -->
+              <div class="forecaster-result-box">
+                <span class="eyebrow">Forecast Analysis</span>
+                <div class="target-stat-circle">
+                  <span class="target-label">Required Future GPA</span>
+                  <span class="target-value" id="targetRequiredGpa">4.10</span>
+                  <span class="target-sub" id="targetScaleSub">Across 30 credits</span>
+                </div>
+
+                <div id="targetStatusBadge" class="target-badge warning">
+                  Challenging Goal
+                </div>
+
+                <p id="targetAnalysisText" class="target-analysis-desc">
+                  To raise your CGPA from 3.35 to 3.60 over 30 credits, you need an average of <strong>4.10</strong>.
+                </p>
+
+                <div class="max-achievable-box">
+                  <span class="max-label">Maximum Possible CGPA (Straight A's):</span>
+                  <span class="max-value" id="targetMaxPossibleCgpa">3.57</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: SCALES REFERENCE & FAQ              -->
+    <!-- ========================================== -->
+    <section 
+      id="tab-faq" 
+      class="tab-panel hidden" 
+      role="tabpanel" 
+      aria-labelledby="tabBtn-faq"
+    >
+      <div class="faq-page-container">
+        <!-- Scale Reference Table Card -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Standard Grading Scale Reference</h2>
+              <p class="card-subtitle">Common letter grades, point equivalents, and percentage benchmarks.</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="scale-table">
+                <thead>
+                  <tr>
+                    <th>Letter Grade</th>
+                    <th>Standard 4.0</th>
+                    <th>4.33 Scale</th>
+                    <th>5.0 Scale</th>
+                    <th>10.0 Scale</th>
+                    <th>Typical Range</th>
+                    <th>Academic Distinction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="grade-pill grade-a">A+</span></td>
+                    <td>4.00</td>
+                    <td>4.33</td>
+                    <td>5.00</td>
+                    <td>10.0</td>
+                    <td>97 - 100%</td>
+                    <td>Exceptional / High Honors</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-a">A</span></td>
+                    <td>4.00</td>
+                    <td>4.00</td>
+                    <td>4.75</td>
+                    <td>9.0</td>
+                    <td>93 - 96%</td>
+                    <td>Excellent / Dean's List</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-a">A-</span></td>
+                    <td>3.70</td>
+                    <td>3.67</td>
+                    <td>4.50</td>
+                    <td>8.5</td>
+                    <td>90 - 92%</td>
+                    <td>Very Good</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-b">B+</span></td>
+                    <td>3.30</td>
+                    <td>3.33</td>
+                    <td>4.00</td>
+                    <td>8.0</td>
+                    <td>87 - 89%</td>
+                    <td>Good Standing</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-b">B</span></td>
+                    <td>3.00</td>
+                    <td>3.00</td>
+                    <td>3.50</td>
+                    <td>7.0</td>
+                    <td>83 - 86%</td>
+                    <td>Above Average</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-b">B-</span></td>
+                    <td>2.70</td>
+                    <td>2.67</td>
+                    <td>3.00</td>
+                    <td>6.5</td>
+                    <td>80 - 82%</td>
+                    <td>Average</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-c">C+</span></td>
+                    <td>2.30</td>
+                    <td>2.33</td>
+                    <td>2.50</td>
+                    <td>6.0</td>
+                    <td>77 - 79%</td>
+                    <td>Satisfactory</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-c">C</span></td>
+                    <td>2.00</td>
+                    <td>2.00</td>
+                    <td>2.00</td>
+                    <td>5.0</td>
+                    <td>73 - 76%</td>
+                    <td>Minimum Passing Core</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-d">D</span></td>
+                    <td>1.00</td>
+                    <td>1.00</td>
+                    <td>1.00</td>
+                    <td>4.0</td>
+                    <td>60 - 69%</td>
+                    <td>Conditional Pass</td>
+                  </tr>
+                  <tr>
+                    <td><span class="grade-pill grade-f">F</span></td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>&lt; 60%</td>
+                    <td>Fail / No Credit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula Explainer Card -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">How CGPA & GPA Are Calculated</h2>
+              <p class="card-subtitle">Official mathematical formulas for weighted cumulative grade point averages.</p>
+            </div>
+          </div>
+
+          <div class="card-body formula-cards-grid">
+            <div class="formula-box">
+              <h3 class="formula-title">1. Semester GPA Formula</h3>
+              <p class="formula-desc">Your term GPA is the credit-weighted average of your semester's course grades:</p>
+              <div class="formula-math">
+                Semester GPA = &Sigma; (Course GPA &times; Course Credits) / &Sigma; (Course Credits)
+              </div>
+              <p class="formula-caption">Example: (4.0 &times; 3 + 3.0 &times; 3) / (3 + 3) = 21 / 6 = <strong>3.50</strong></p>
+            </div>
+
+            <div class="formula-box">
+              <h3 class="formula-title">2. Updated Cumulative CGPA</h3>
+              <p class="formula-desc">Your updated CGPA blends past grade points with the new semester's quality points:</p>
+              <div class="formula-math">
+                Updated CGPA = [ (Prior CGPA &times; Prior Credits) + Term Points ] / (Prior Credits + Term Credits)
+              </div>
+              <p class="formula-caption">Every credit hour carries equal weight toward your overall degree transcript.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frequently Asked Questions Accordion -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Frequently Asked Questions</h2>
+              <p class="card-subtitle">Clear answers to questions students ask every semester.</p>
+            </div>
+          </div>
+
+          <div class="card-body faq-accordion">
+            <details class="faq-item" open>
+              <summary class="faq-summary">
+                <span>Will this CGPA calculation match my university transcript?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </summary>
+              <div class="faq-content">
+                <p>
+                  Yes, this tool strictly follows the standard credit-weighted quality points formula used across accredited institutions worldwide. Note that some universities truncate decimals (e.g., 3.666 becomes 3.66) while others round up to two decimal places (3.67). We provide standard mathematical rounding to two decimal places.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-summary">
+                <span>What is the difference between GPA and CGPA?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </summary>
+              <div class="faq-content">
+                <p>
+                  <strong>GPA (Grade Point Average)</strong> measures academic performance for a single academic term or semester. <strong>CGPA (Cumulative Grade Point Average)</strong> is the cumulative average of all semesters completed throughout your entire degree program.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-summary">
+                <span>What happens if I retake a course?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </summary>
+              <div class="faq-content">
+                <p>
+                  Course repeat policies vary by university:
+                </p>
+                <ul>
+                  <li><strong>Grade Replacement:</strong> The new grade completely replaces the old grade in CGPA calculations (total completed credits remain unchanged).</li>
+                  <li><strong>Grade Averaging:</strong> Both attempts count toward cumulative points and completed credits.</li>
+                </ul>
+                <p>If your school uses grade replacement, adjust your "Current CGPA" and "Completed Credits" to subtract the prior attempt before adding the retaken course.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-summary">
+                <span>Is my academic data secure and private?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </summary>
+              <div class="faq-content">
+                <p>
+                  100% yes. No course names, grades, or personal details are ever uploaded to a server or third party. Everything is computed instantly in your browser's local memory.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-summary">
+                <span>Can I print or save a projection report?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </summary>
+              <div class="faq-content">
+                <p>
+                  Yes! Click the <strong>Print Report</strong> button on the calculator sidebar or press <kbd>Ctrl+P</kbd> (<kbd>Cmd+P</kbd> on macOS). The site includes a dedicated print stylesheet that formats your courses, semester GPA, and cumulative projection into a clean document ready for advising meetings.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer role="contentinfo">
-    <p>
-      Created by 
-      <a 
-        href="https://mohiuddin-khan-shiam.github.io/" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        Shiam
-      </a>
-    </p>
-    <p>
-      <a 
-        href="https://github.com/mohiuddin-khan-shiam/CGPA-Calculator" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        GitHub
-      </a> 
-      | 
-      <a 
-        href="https://www.linkedin.com/in/s-m-mohiuddin-khan-shiam/" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        LinkedIn
-      </a>
-    </p>
+  <!-- Printable Academic Projection Sheet (Visible only when printing) -->
+  <div id="printSheet" class="print-only">
+    <div class="print-header">
+      <h2>Academic CGPA & Semester Performance Report</h2>
+      <p id="printDate">Generated on [Date]</p>
+    </div>
+    <div class="print-summary-box">
+      <div class="print-stat">
+        <span class="print-label">Updated CGPA:</span>
+        <strong id="printCgpa">0.00</strong>
+      </div>
+      <div class="print-stat">
+        <span class="print-label">Semester GPA:</span>
+        <strong id="printSemesterGpa">0.00</strong>
+      </div>
+      <div class="print-stat">
+        <span class="print-label">Total Credits:</span>
+        <strong id="printTotalCredits">0</strong>
+      </div>
+      <div class="print-stat">
+        <span class="print-label">Academic Standing:</span>
+        <strong id="printStanding">-</strong>
+      </div>
+    </div>
+    <table class="print-table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Credits</th>
+          <th>Grade</th>
+          <th>Grade Points</th>
+          <th>Quality Points</th>
+        </tr>
+      </thead>
+      <tbody id="printCourseTableBody">
+        <!-- Injected dynamically on print -->
+      </tbody>
+    </table>
+    <div class="print-footer">
+      <p>Report generated via CGPA Calculator – https://mohiuddin-khan-shiam.github.io/CGPA-Calculator/</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <p class="footer-brand">
+          <strong>CGPA Calculator</strong> &bull; Crafted by 
+          <a href="https://mohiuddin-khan-shiam.github.io/" target="_blank" rel="noopener noreferrer">
+            S. M. Mohiuddin Khan Shiam
+          </a>
+        </p>
+        <p class="footer-license">Released under the MIT License. Free, open source & ad-free.</p>
+      </div>
+
+      <div class="footer-links">
+        <a 
+          href="https://github.com/mohiuddin-khan-shiam/CGPA-Calculator" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a 
+          href="https://www.linkedin.com/in/s-m-mohiuddin-khan-shiam/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+        <a 
+          href="https://mohiuddin-khan-shiam.github.io/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <span>Portfolio</span>
+        </a>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
